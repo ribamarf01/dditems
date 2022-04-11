@@ -36,13 +36,19 @@ const addToDb = async (name: string, gameDescription: string, effect: string, im
         const effect = await page.$eval('dl + p', text => text.innerHTML.replace(/<[^>]*>/g, ''))
         const imgUrl = await page.$eval('img.pi-image-thumbnail', img => img.getAttribute('src'))
         const weight = await page.$eval('section.pi-item > div > div', text => Number(text.innerHTML.replace(",", ".")))
-        const value = await page.$eval('section.pi-item > div + div + div > div', text => Number(text.innerHTML.split(" ")[0].replace(",", "")))
+        const value = await page.$eval('section.pi-item > div + div + div > div', text => 
+          Number(
+            text.innerHTML
+              .split(" ")[0]
+              .replace(",", "").replace(".", "")
+            )
+        ) // 🥵
 
         const result = await Promise.all([
           await addToDb(name, gameDescription, effect, String(imgUrl), weight, value)
         ])
 
-        console.log(`${BASE_URL}${link} added: ${result}`)
+        console.log(`${BASE_URL}${link} added: ${JSON.stringify(result)}\n`)
 
       } catch(e) {
         console.error(e)
