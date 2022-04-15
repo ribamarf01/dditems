@@ -34,7 +34,7 @@ const addToDb = async (name: string, gameDescription: string, effect: string, im
         const name = await page.$eval('aside.portable-infobox > h2', text => text.innerHTML) 
         const gameDescription = await page.$eval('dl > dd > i', text => text.innerHTML)
         const effect = await page.$eval('dl + p', text => text.innerHTML.replace(/<[^>]*>/g, ''))
-        const imgUrl = await page.$eval('img.pi-image-thumbnail', img => img.getAttribute('src').split("/revision")[0])
+        const imgUrl = await page.$eval('img.pi-image-thumbnail', img => img.getAttribute('src')!.split("/revision")[0])
         const weight = await page.$eval('section.pi-item > div > div', text => Number(text.innerHTML.replace(",", ".")))
         const value = await page.$eval('section.pi-item > div + div + div > div', text => 
           Number(
